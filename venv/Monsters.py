@@ -1,8 +1,8 @@
 class Monsters:
-    name = ""
-    hp = 0
-    mp = 0
-    def __init__(self, nameT):
-        name = nameT
-        hp = 10
-        mp = 10
+    Mons = {"Name": ""}
+    Stats = {"MaxHp": 20, "Hp": 20}
+
+    def __init__(self, nameT, maxHP):
+        self.Mons["Name"] = nameT
+        self.Stats["MaxHp"] = maxHP
+        self.Stats["Hp"] = maxHP
