@@ -1,8 +1,35 @@
 from Character import Character
+from Monsters import Monsters
+from Skeleton import Skeleton
+from Barbarian import Barbarian
 import random
 
 def weapon(Monsters):
-
+    print("spin a d20 for ac, you need to beat a " + "13" + " (Strength Modifier added to it)")
+    input()
+    roll = random.randint(1, 20)
+    print(str(roll) + " + " + str(Hero.Stats["StrMod"]))
+    if roll + Hero.Stats["StrMod"] >= Monsters.Stats["AC"]:
+        print("Hit! roll for  Damage")
+        input()
+        rollD = random.randint(1, Hero.Abilities["weapon"])
+        if Hero.Char["Class"] == "Barbarian":
+            rollD += Hero.Stats["StrMod"]
+        if roll + Hero.Stats["StrMod"] >= 20:
+            print("Roll was crit, so double damage")
+            rollD = rollD + rollD
+        print("You did " + str(rollD) + " Damage")
+        Monsters.Stats["Hp"] -= rollD
+        print("Monster Hp is: " + str(Monsters.Stats["Hp"]))
+    else:
+        print("You failed to pierce the Monster's AC")
+def rage(Monsters):
+    print("With your Barbarian Rage, you gain HP!")
+    print("You gain " + str(int(Hero.StatsHp["MaxHp"]/3)) + " HP!")
+    Hero.StatsHp["Hp"] += int(Hero.StatsHp["MaxHp"]/3)
+    if Hero.StatsHp["Hp"] > Hero.StatsHp["MaxHp"]:
+        Hero.StatsHp["Hp"] = Hero.StatsHp["MaxHp"]
+    print("Hp is now: " + str(Hero.StatsHp["Hp"]))
 def battle(Monsters):
     print("Battle! Your enemy is " + Monsters.Mons["Name"] + " with " + str(Monsters.Stats["MaxHp"]) + " health!")
     monsterAlive = True
@@ -12,39 +39,22 @@ def battle(Monsters):
         print("type the ability exactly of what you want to do")
         inputB = input().lower()
 
-        if inputB == "a":
-            print("spin a d20 for ac, you need to beat a " + "13" + " (Strength Modifier added to it)")
-            input()
-            roll = random.randint(1,20)
-            print (str(roll)  + " + " + str(Hero.Stats["StrMod"]))
-            if roll + Hero.Stats["StrMod"] >= 13:
-                print("Hit! roll for  Damage")
-                input()
-                rollD = random.randint(1, Hero.Abilities["weapon"]) + Hero.Stats["StrMod"]
-                if roll + Hero.Stats["StrMod"] >= 20:
-                    print("Roll was crit, so double damage")
-                    rollD = rollD + rollD
-                print("You did " + str(rollD) + " Damage")
-                MonsterHP = MonsterHP - rollD
-                print("Monster Hp is: " + str(MonsterHP))
-            else:
-                print("You failed to pierce the Monster's AC")
-        if inputB == "b":
-            print("With your Barbarian Rage, you gain HP!")
-            print("You gain " + str(int(Hero.Abilities["rage"])) + " HP!")
-            Hero.StatsHp["Hp"] += int(Hero.Abilities["rage"])
-            if Hero.StatsHp["Hp"] > Hero.StatsHp["MaxHp"]:
-                Hero.StatsHp["Hp"] = Hero.StatsHp["MaxHp"]
-            print("Hp is now: " + str(Hero.StatsHp["Hp"]))
-        if MonsterHP > 0:
+        if inputB == "weapon":
+           weapon(Monsters)
+        elif inputB == "rage":
+            rage(Monsters)
+        else:
+            print("Nice spelling, bucko")
+            continue
+        if Monsters.Stats["Hp"] > 0:
             rollM = random.randint(1,20)
             print("***Monster Attacks***")
             print(rollM)
-            if rollM + 1 > Hero.Stats["AC"]:
+            if rollM + Monsters.Abil["Crit"] > Hero.Stats["AC"]:
                 print("Hit!")
                 rollMD = random.randint(1,6)
-                print("Monster does " + str(rollMD) + " Damage")
-                Hero.StatsHp["Hp"] -= rollMD
+                print("Monster does " + str(rollMD) + " + " + str(Monsters.Abil["Crit"]) + " Damage")
+                Hero.StatsHp["Hp"] -= rollMD + Monsters.Abil["Crit"]
                 print("You went down to " + str(Hero.StatsHp["Hp"]) + " hp!")
                 if Hero.StatsHp["Hp"] <= 0:
                     print("You lose!")
@@ -73,11 +83,13 @@ if input1 == "a":
         tempclass = "Wizard"
     else:
         print("Crashed")
-    Hero=Character(tempclass,tempName)
+    if tempclass == "Barbarian":
+        Hero = Barbarian(tempclass, tempName)
+        Hero.StatsHp["MaxHp"] = 16
+        Hero.StatsHp["MaxMp"] = 8
+        Hero.StatsHp["Mp"] = 8
+        Hero.StatsHp["Hp"] = 16
     print("The adventure begins!")
-if Hero.Char.get('Class') == "Barbarian":
-    Hero.StatsHp["MaxHp"] = 10 + 6
-    Hero.StatsHp["MaxMp"] = 8
-    Hero.StatsHp["Mp"] = 8
+
 Skele = Skeleton(6)
 battle(Skele)
