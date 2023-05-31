@@ -56,7 +56,7 @@ def punch(Monsters):
         else:
             print("You failed to pierce the Monster's AC")
     else:
-        print("You are not a bear and thus are weaker. Roll a D20 to see if you pierce " + Monster.Mons["Name"] + "'s armour")
+        print("You are not a bear and thus are weaker. Roll a D20 to see if you pierce " + Monsters.Mons["Name"] + "'s armour")
         input()
         rollTwen = random.randint(1, 20)
         print(str(rollTwen) + " + " + str(Hero.Stats["StrMod"]))
