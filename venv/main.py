@@ -120,7 +120,7 @@ if input1 == "a":
     print("What is your name?")
     tempName = input()
     print("Choose a class:")
-    print("a:Barbarian\nb:Druid\nc:Wizard")
+    print("a:Barbarian\nb:Druid")
     input2 = input()
     if input2 == "a":
         tempclass = "Barbarian"
