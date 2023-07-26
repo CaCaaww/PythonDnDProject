@@ -4,7 +4,7 @@ from Skeleton import Skeleton
 from Barbarian import Barbarian
 from Druid import Druid
 import random
-
+HeroAlive = True
 def weapon(Monsters):
     print("spin a d20 for ac, you need to beat a " + "13" + " (Strength Modifier added to it)")
     input()
@@ -105,6 +105,7 @@ def battle(Monsters):
                 print("You went down to " + str(Hero.StatsHp["Hp"]) + " hp!")
                 if Hero.StatsHp["Hp"] <= 0:
                     print("You lose!")
+                    HeroAlive = False
                     monsterAlive = False
             else:
                 print("Monster does not pierce AC")
@@ -143,6 +144,25 @@ if input1 == "a":
         Hero.StatsHp["Mp"] = 20
         Hero.StatsHp["Hp"] = 12
     print("The adventure begins!")
-
+print("You find yourself on the ruins of a recent battle.\nBefore you can question why you are there, a Skeleton charges at you.")
 Skele = Skeleton(6)
 battle(Skele)
+if HeroAlive == True:
+    print("Congrats! You have defeated the skeleton.")
+else:
+    sys.exit()
+continue_ = False
+while continue_ == False:
+    print("After defeating the skeleton you have time to look around.")
+    print("a: inspect skeleton corpse\nb: look at flag \nc: charge into fog")
+    input1 = input().lower()
+    if input1 == "a":
+        print("It's all bones.")
+    if input1 == "b":
+        print("Nothing here.")
+    if input1 == "c":
+        continue_ = True
+        print("Now we're talking!")
+print("You charge into the fog, ready for more battle, when you encounter a much larger, more ferocious skeleton.")
+SkeleL = Skeleton(10)
+battle(SkeleL)
